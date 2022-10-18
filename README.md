@@ -2,5 +2,4 @@
 
 ![logo](.github/logo.png)
 
-# <center>Canvast.js<center>
-<center>vastly easy method to code html5 canvas<center>
+# Canvast.js : <sup><sub>vastly easy method to code html5 canvas<sub><sup>
