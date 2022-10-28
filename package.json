@@ -1,0 +1,20 @@
+{
+  "name": "canvast.js",
+  "version": "0.0.1",
+  "description": "vastly easy method to code html5 canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DennisYun/canvast.js.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DennisYun/canvast.js/issues"
+  },
+  "homepage": "https://github.com/DennisYun/canvast.js#readme",
+  "type": "module"
+}
