@@ -1,12 +1,13 @@
 class Canvast {
-  constructor(canvasID) {
-    this.canvas = document.getElementById(canvasID).getContext("2d");
-    this.framesec = 0; // 나누기 60 = 초
-    this.objects = {};
-    this.taskPause = [];
-    this.presentRunningTaskIdx = 0;
-  }
+  fs = 0; // / 60 = second
+  objects = {};
+  taskPause = [];
+  nowTaskIdx = 0;
 
+  constructor(element) {
+    this.canvas = element.getContext("2d");
+  }
+  
   add(name, content) {
     this.objects[name] = content;
   }
@@ -15,15 +16,8 @@ class Canvast {
     delete this.objects[name];
   }
 
-  wait(sec) {
-    return {
-      framesec: () => {
-        this.taskPause[this.presentRunningTaskIdx] = sec;
-      },
-      second: () => {
-        this.taskPause[this.presentRunningTaskIdx] = sec * 60;
-      }
-    };
+  wait4(sec) {
+    this.taskPause[this.nowTaskIdx] = sec;
   }
 
   classic(callback) {
@@ -42,14 +36,14 @@ class Canvast {
         this.canvas.fillStyle = "white";
         this.canvas.fillRect(0, 0, 400, 400);
         tasks.forEach((task, i) => {
-          self.presentRunningTaskIdx = i;
+          self.nowTaskIdx = i;
           if (this.taskPause[i] > 0) {
             this.taskPause[i]--;
           } else if (task.next().done) {
             taskDown[i] = true;
           }
         });
-        this.framesec++;
+        this.fs++;
         if (taskDown.every(v => v)) {
           res();
           return;
@@ -59,16 +53,30 @@ class Canvast {
       animate.call(this);
     });
   }
+
+  cout() {
+    const g = globalThis;
+    g.add = (name, content) => this.add(name, content);
+    g.remove = (name) => this.remove(name);
+    g.wait4 = (sec) => this.wait4(sec);
+    g.classic = (callback) => this.classic(callback);
+  }
 }
 
+function canvast(e) {
+  return new Canvast(e)
+};
 
 
-const c = new Canvast("canvas1");
+const canvas = document.querySelector("#canvas1");
+const c = canvast(canvas);
+c.cout();
 
 function* task1() {
-  yield c.wait(2).second();
+  yield wait4(20);
+  console.log("waited");
   for (let i = 0; i < 100; i++) {
-    yield c.classic((ctx) => {
+    yield classic((ctx) => {
       ctx.rect(20, 20, 150, 100);
       ctx.stroke();
     });
