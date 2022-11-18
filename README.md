@@ -3,4 +3,4 @@
 <img src=".github/logo.png">
 
 # NROCHCDHLBOGFFJ
-Non-recursive object concurrency html canvas development helper library based on generator function for javascript
+Non-recursive object concurrency html canvas development helper library based on generator function for javaScript

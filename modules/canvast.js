@@ -1,4 +1,4 @@
-class Canvast {
+class NonRecursiveObjectConcurrencyHtmlCanvasDevelopmentHelperLibraryBasedOnGeneratorFunctionForJavaScript {
   fs = 0; // / 60 = second
   objects = {};
   taskPause = [];
@@ -142,7 +142,7 @@ function canvast(e) {
 
 /** **/
 const canvas = document.querySelector("#canvas1");
-const c = new Canvast(canvas, {
+const c = new NonRecursiveObjectConcurrencyHtmlCanvasDevelopmentHelperLibraryBasedOnGeneratorFunctionForJavaScript(canvas, {
   canvasWidth: 400,
   canvasHeight: 400,
   clearScreenWhenExecutionFinished: false
@@ -156,4 +156,4 @@ function* t1() {
   yield c.o("rect1").setWidth(10);
 }
 
-c.show(t1); 
+c.show(t1);
