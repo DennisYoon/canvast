@@ -156,4 +156,4 @@ function* t1() {
   yield c.o("rect1").setWidth(10);
 }
 
-c.show(t1);
+c.show(t1); 
