@@ -1,6 +1,5 @@
 <img src="https://img.shields.io/badge/version-0.0.1-lightgreen" />
 
-<img src=".github/logo.png">
+![logo](.github/logo.png)
 
-# NROCHCDHLBOGFFJ
-Non-recursive object concurrency html canvas development helper library based on generator function for javascript
+# Canvast.js : <sup><sub>vastly easy method to code html5 canvas<sub><sup>
