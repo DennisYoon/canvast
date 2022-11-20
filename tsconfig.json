@@ -1,0 +1,9 @@
+{
+  "files": ["canvast.ts"],
+  "compilerOptions": {
+    "declaration": true,
+    "target": "ES6",
+    "outDir": "modules",
+    "lib": ["DOM", "es2017"]
+  },
+}
