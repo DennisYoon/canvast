@@ -154,7 +154,8 @@ class Rect extends Obj {
   }
 }
 
-/** */
+
+/* TEST CODES */
 
 const canvas = document.querySelector("#canvas1");
 const c = new Canvast(canvas, {

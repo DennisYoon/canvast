@@ -1,3 +1,122 @@
-const basicProperties={width:0,height:0,clearCanvastWhenDone:!1};class Canvast{constructor(t,s=basicProperties){this.properties=s,this.fs=0,this.objects=[],this.taskPause=[],this.nowTaskIdx=0,this.canvas=t.getContext("2d"),console.log(this.nowTaskIdx)}add(t,s){this.objects[t]=s}remove(t){delete this.objects[t]}o(t){return this.objects[t]}wait4(t){this.taskPause[this.nowTaskIdx]=t}classic(t){t(this.canvas)}show(...t){let s=[...t];return new Promise(t=>{let e=s.map(t=>t()),i=Array(e.length).fill(!1);this.taskPause=Array(e.length).fill(0);let a=()=>{if(i.every(t=>t)){this.properties.clearCanvastWhenDone&&this.clearScreen(),t();return}for(let s of(this.clearScreen(),e.forEach((t,s)=>{this.nowTaskIdx=s,this.taskPause[s]>0?this.taskPause[s]--:t.next().done&&(i[s]=!0)}),this.fs++,Object.keys(c.objects).map(t=>c.objects[t])))s.showAt(this.canvas);requestAnimationFrame(a)};a()})}cout(){let t=globalThis;t.add=(t,s)=>this.add(t,s),t.remove=t=>this.remove(t),t.wait4=t=>this.wait4(t),t.classic=t=>this.classic(t)}clearScreen(){this.canvas.fillStyle="white",this.canvas.fillRect(0,0,this.properties.width,this.properties.height)}}class Obj{constructor(){this.basicAtt={visible:!0,fillColor:"red",strokeColor:"red"}}}class Rect extends Obj{constructor(){super(),this.att=Object.assign(Object.assign({},this.basicAtt),{width:10,height:20,x:10,y:10})}showAt(t){let s=this.att;t.fillStyle=s.fillColor,t.strokeStyle=s.strokeColor,t.fillRect(s.x,s.y,s.x+s.width,s.y+s.height)}addWidth(t){this.att.width+=t}setWidth(t){this.att.width=t}addHeight(t){this.att.height+=t}setHeight(t){this.att.height=t}}const canvas=document.querySelector("#canvas1"),c=new Canvast(canvas,{width:400,height:400,clearCanvastWhenDone:!1});function*t1(){yield c.add("redRect",new Rect);for(let t=0;t<100;t++)yield c.o("redRect").addWidth(1)}c.show(t1);
-
-/* minified with toptal.com/developers/javascript-minifier */
+const basicProperties = {
+    width: 0,
+    height: 0,
+    clearCanvastWhenDone: false
+};
+class Canvast {
+    constructor(element, properties = basicProperties) {
+        this.properties = properties;
+        this.fs = 0; // divide 60 = second
+        this.objects = [];
+        this.taskPause = [];
+        this.nowTaskIdx = 0;
+        this.canvas = element.getContext("2d");
+        console.log(this.nowTaskIdx);
+    }
+    add(name, content) {
+        this.objects[name] = content;
+    }
+    remove(name) {
+        delete this.objects[name];
+    }
+    o(name) {
+        return this.objects[name];
+    }
+    wait4(sec) {
+        this.taskPause[this.nowTaskIdx] = sec;
+    }
+    classic(callback) {
+        callback(this.canvas);
+    }
+    show(...tasksNoCallSpread) {
+        const tasksNoCall = [...tasksNoCallSpread];
+        return new Promise(res => {
+            let tasks = tasksNoCall.map(v => v());
+            let taskDown = Array(tasks.length).fill(false);
+            this.taskPause = Array(tasks.length).fill(0);
+            const animate = () => {
+                if (taskDown.every(v => v)) {
+                    if (this.properties.clearCanvastWhenDone) {
+                        this.clearScreen();
+                    }
+                    res();
+                    return;
+                }
+                this.clearScreen();
+                tasks.forEach((task, i) => {
+                    this.nowTaskIdx = i;
+                    if (this.taskPause[i] > 0) {
+                        this.taskPause[i]--;
+                    }
+                    else if (task.next().done) {
+                        taskDown[i] = true;
+                    }
+                });
+                this.fs++;
+                for (let object of Object.keys(c.objects).map(v => c.objects[v])) {
+                    object.showAt(this.canvas);
+                }
+                requestAnimationFrame(animate);
+            };
+            animate();
+        });
+    }
+    cout() {
+        const g = globalThis;
+        g.add = (name, content) => this.add(name, content);
+        g.remove = (name) => this.remove(name);
+        g.wait4 = (sec) => this.wait4(sec);
+        g.classic = (callback) => this.classic(callback);
+    }
+    clearScreen() {
+        this.canvas.fillStyle = "white";
+        this.canvas.fillRect(0, 0, this.properties.width, this.properties.height);
+    }
+}
+class Obj {
+    constructor() {
+        this.basicAtt = {
+            visible: true,
+            fillColor: "red",
+            strokeColor: "red"
+        };
+    }
+}
+class Rect extends Obj {
+    constructor() {
+        super();
+        this.att = Object.assign(Object.assign({}, this.basicAtt), { width: 10, height: 20, x: 10, y: 10 });
+    }
+    showAt(ctx) {
+        const atts = this.att;
+        ctx.fillStyle = atts.fillColor;
+        ctx.strokeStyle = atts.strokeColor;
+        ctx.fillRect(atts.x, atts.y, atts.x + atts.width, atts.y + atts.height);
+    }
+    addWidth(number) {
+        this.att.width += number;
+    }
+    setWidth(number) {
+        this.att.width = number;
+    }
+    addHeight(number) {
+        this.att.height += number;
+    }
+    setHeight(number) {
+        this.att.height = number;
+    }
+}
+/* TEST CODES */
+const canvas = document.querySelector("#canvas1");
+const c = new Canvast(canvas, {
+    width: 400,
+    height: 400,
+    clearCanvastWhenDone: false
+});
+function* t1() {
+    yield c.add("redRect", new Rect());
+    for (let i = 0; i < 100; i++) {
+        yield c.o("redRect").addWidth(1);
+    }
+}
+c.show(t1);
